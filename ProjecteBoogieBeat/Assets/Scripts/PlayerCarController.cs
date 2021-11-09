@@ -19,7 +19,6 @@ public class PlayerCarController : MonoBehaviour
     [SerializeField] private float motorForce = 10.0f;
     [SerializeField] private float breakForce = 10.0f;
     [SerializeField] private float maxSteerAngle = 10.0f;
-    private float tmpMaxSteerAngle;
 
     //Basic controls
     private bool
@@ -54,26 +53,24 @@ public class PlayerCarController : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
         rb.centerOfMass = newCenterOfMas;
-        angularVel = rb.angularVelocity;
-
-        tmpMaxSteerAngle = maxSteerAngle;
-
+        
+        
     }
 
     private void Update()
     {
         GetInput();
+        angularVel = rb.angularVelocity;
         //Debug.Log("Vertical: " + verticalInput);
         //Debug.Log("Horizontal: " + horizontalInput);
         //Debug.Log("motorTorque: " + frontLeftWheelCollider.motorTorque);
-        Debug.Log("tmpMaxSteerAngle: " + tmpMaxSteerAngle);
-        Debug.Log("maxSteerAngle: " + maxSteerAngle);
-        Debug.Log("currSteerAngle: " + currSteerAngle);
-        //Debug.Log("angleVelocity: " + angularVel);
-        if (horizontalInput != 0)
-            maxSteerAngle = (maxSteerAngle / 100) * 95;
-        else if (horizontalInput == 0)
-            maxSteerAngle = tmpMaxSteerAngle;
+        //Debug.Log("tmpMaxSteerAngle: " + tmpMaxSteerAngle);
+        //Debug.Log("maxSteerAngle: " + maxSteerAngle);
+        //Debug.Log("currSteerAngle: " + currSteerAngle);
+        Debug.Log("angleVelocity: " + angularVel);
+        //Debug.Log("rb.inertiaTensor: " + rb.inertiaTensor);
+        //Debug.Log("rb.inertiaTensorRotation: " + rb.inertiaTensorRotation);
+        rb.angularVelocity = new Vector3(rb.angularVelocity.x,Mathf.Clamp(rb.angularVelocity.y, -0.5f, 0.5f) ,rb.angularVelocity.z);
 
     }
 
