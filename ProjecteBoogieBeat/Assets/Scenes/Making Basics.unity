@@ -162,14 +162,14 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 423397727}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.29
+  m_Radius: 0.3
   m_SuspensionSpring:
     spring: 90000
     damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
@@ -223,14 +223,14 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 772459219}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.29
+  m_Radius: 0.3
   m_SuspensionSpring:
     spring: 90000
     damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
@@ -370,7 +370,7 @@ Transform:
   m_GameObject: {fileID: 866022482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1, z: 0}
-  m_LocalScale: {x: 200, y: 1, z: 200}
+  m_LocalScale: {x: 400, y: 1, z: 400}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 5193395535608231309, guid: 70930551834e0f64f949e4b9c4fc3556, type: 3}
-  prefabAmmount: 30
+  prefabAmmount: 50
 --- !u!1 &1024446182
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,14 +494,14 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1637689131}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.29
+  m_Radius: 0.3
   m_SuspensionSpring:
     spring: 90000
     damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
@@ -648,14 +648,14 @@ WheelCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1969816631}
   m_Center: {x: 0, y: 0, z: 0}
-  m_Radius: 0.29
+  m_Radius: 0.3
   m_SuspensionSpring:
     spring: 90000
     damper: 9000
     targetPosition: 0.5
   m_SuspensionDistance: 0.3
   m_ForceAppPointDistance: 0
-  m_Mass: 20
+  m_Mass: 40
   m_WheelDampingRate: 0.25
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
@@ -1230,6 +1230,7 @@ MonoBehaviour:
   motorForce: 1000
   breakForce: 3000
   maxSteerAngle: 5
+  overdriveMultiplier: 1
 --- !u!54 &9078679622429901302
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class InstantiatePrefabsAtRandomPos : MonoBehaviour
 {
+    private const int RANGE = 180;
+
     public GameObject prefab;
     public int prefabAmmount = 10;
 
@@ -14,9 +16,9 @@ public class InstantiatePrefabsAtRandomPos : MonoBehaviour
         Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
         for (int i = 0; i < prefabAmmount; i++)
         {
-            Vector3 rndPos = new Vector3(Random.Range(-80, 80), 0.0f, Random.Range(-80, 80));
+            Vector3 rndPos = new Vector3(Random.Range(-RANGE, RANGE), 0.0f, Random.Range(-RANGE, RANGE));
             while(Vector3.Distance(playerPos, rndPos) < 10)
-                rndPos = new Vector3(Random.Range(-80, 80), 0.0f, Random.Range(-80, 80));
+                rndPos = new Vector3(Random.Range(-RANGE, RANGE), 0.0f, Random.Range(-RANGE, RANGE));
 
             Instantiate(prefab, rndPos, Quaternion.identity);
         }
