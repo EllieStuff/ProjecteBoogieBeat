@@ -1200,6 +1200,7 @@ GameObject:
   - component: {fileID: 9078679622429901301}
   - component: {fileID: 9078679622429901302}
   - component: {fileID: 9078679622429901303}
+  - component: {fileID: 9078679622429901304}
   m_Layer: 0
   m_Name: Player_Car
   m_TagString: Player
@@ -1260,6 +1261,100 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.8692594, y: 1.0177442, z: 3.2774377}
   m_Center: {x: 0, y: 0.7397712, z: 0.01165247}
+--- !u!114 &9078679622429901304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9078679622429901300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 3b17ddee194a7f14b910c2f141d3d377, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9078679622429901301}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: OnVerticalMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 470b704c-bd0a-407d-b4c7-1290323a07cf
+    m_ActionName: Car controller/VerticalMovement[/Keyboard/s,/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9078679622429901301}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: OnHorizontalMovement
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b1f10cc0-4410-40a3-9928-cd8a37f73ac5
+    m_ActionName: Car controller/HorizontalMovement[/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9078679622429901301}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: OnBrake
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: fd27ab93-a7d3-4a2d-b026-95ce3e811c2d
+    m_ActionName: Car controller/Brake[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9078679622429901301}
+        m_TargetAssemblyTypeName: PlayerCarController, Assembly-CSharp
+        m_MethodName: OnTurbo
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: def6fe86-09f8-449d-b6ea-f6f866e6d468
+    m_ActionName: Car controller/Turbo[/Keyboard/leftShift]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Car controller
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!4 &9078679622430006740
 Transform:
   m_ObjectHideFlags: 0
