@@ -27,10 +27,18 @@ public class PlayerCarController : MonoBehaviour
         backwardPressed = false,
         rightPressed = false,
         leftPressed = false;
-    private float horizontalInput;
-    private float verticalInput;
-    private float currBreakForce;
-    private float isBreaking;
+    private float 
+        horizontalInput,
+        verticalInput,
+        currBreakForce,
+        isBreaking;
+    public bool ForwardInput { get { return horizontalInput > 0; } }
+    public bool BackwardInput { get { return horizontalInput < 0; } }
+    public bool BreakInput { get { return isBreaking > 0; } }
+    public bool TurboInput { get { return turboPressed > 0; } }
+    public bool AnyInput { get { return ForwardInput || BackwardInput || BreakInput || TurboInput; } }
+
+
 
     //"Boogie Beat" extra controls
     private float turboPressed = 0;  //TO DO: el turbo té una duració acumulada màxima
