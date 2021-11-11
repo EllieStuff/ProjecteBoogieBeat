@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerCarController : MonoBehaviour
 {
@@ -29,10 +30,10 @@ public class PlayerCarController : MonoBehaviour
     private float horizontalInput;
     private float verticalInput;
     private float currBreakForce;
-    private bool isBreaking;
+    private float isBreaking;
 
     //"Boogie Beat" extra controls
-    private bool turboPressed = false;  //TO DO: el turbo té una duració acumulada màxima
+    private float turboPressed = 0;  //TO DO: el turbo té una duració acumulada màxima
     private float overdriveMotorForce;
     [SerializeField] private float overdriveMultiplier = 1.0f;
     private bool leftDrift = false;
@@ -59,19 +60,18 @@ public class PlayerCarController : MonoBehaviour
 
     private void Update()
     {
-        GetInput();
-        angularVel = rb.angularVelocity;
-        //Debug.Log("Vertical: " + verticalInput);
-        //Debug.Log("Horizontal: " + horizontalInput);
-        //Debug.Log("motorTorque: " + frontLeftWheelCollider.motorTorque);
+        //GetInput();
+        //angularVel = rb.angularVelocity;
+        Debug.Log("Vertical: " + verticalInput);
+        Debug.Log("Horizontal: " + horizontalInput);
+        Debug.Log("motorTorque: " + frontLeftWheelCollider.motorTorque);
         //Debug.Log("tmpMaxSteerAngle: " + tmpMaxSteerAngle);
         //Debug.Log("maxSteerAngle: " + maxSteerAngle);
         //Debug.Log("currSteerAngle: " + currSteerAngle);
-        Debug.Log("angleVelocity: " + angularVel);
+        //Debug.Log("angleVelocity: " + angularVel);
         //Debug.Log("rb.inertiaTensor: " + rb.inertiaTensor);
         //Debug.Log("rb.inertiaTensorRotation: " + rb.inertiaTensorRotation);
-        rb.angularVelocity = new Vector3(rb.angularVelocity.x,Mathf.Clamp(rb.angularVelocity.y, -0.5f, 0.5f) ,rb.angularVelocity.z);
-
+        Debug.Log("isBreaking: " + isBreaking);
     }
 
     private void FixedUpdate()
@@ -82,34 +82,53 @@ public class PlayerCarController : MonoBehaviour
 
     }
 
-
-    private void GetInput()
+    public void OnVerticalMovement(InputAction.CallbackContext context)
     {
-        //Basic controls
-        forwardPressed = Input.GetKey(KeyCode.W);
-        backwardPressed = Input.GetKey(KeyCode.S);
-        rightPressed = Input.GetKey(KeyCode.D);
-        leftPressed = Input.GetKey(KeyCode.A);
-
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
-        isBreaking = Input.GetKey(KeyCode.Space);
-
-        //"Boogie Beat" extra controls
-        turboPressed = Input.GetKey(KeyCode.LeftShift);
-
-
+        verticalInput = context.ReadValue<float>();
     }
+    public void OnHorizontalMovement(InputAction.CallbackContext context)
+    {
+        horizontalInput = context.ReadValue<float>();
+    }
+    public void OnBrake(InputAction.CallbackContext context)
+    {
+        isBreaking = context.ReadValue<float>();
+    }
+    public void OnTurbo(InputAction.CallbackContext context)
+    {
+        turboPressed = context.ReadValue<float>();
+    }
+
+
+
+
+    //private void GetInput()
+    //{
+    //    //Basic controls
+    //    //forwardPressed = Input.GetKey(KeyCode.W);
+    //    //backwardPressed = Input.GetKey(KeyCode.S);
+    //    //rightPressed = Input.GetKey(KeyCode.D);
+    //    //leftPressed = Input.GetKey(KeyCode.A);
+        
+    //    //horizontalInput = Input.GetAxis("Horizontal");
+    //    //verticalInput = Input.GetAxis("Vertical");
+    //    //isBreaking = Input.GetKey(KeyCode.Space);
+
+    //    ////"Boogie Beat" extra controls
+    //    //turboPressed = Input.GetKey(KeyCode.LeftShift);
+
+
+    //}
 
 
     private void HandleMotor()
     {
         if(verticalInput > 0)
-            overdriveMotorForce = turboPressed ? motorForce * overdriveMultiplier : 0.0f;
+            overdriveMotorForce = turboPressed==1 ? motorForce * overdriveMultiplier : 0.0f;
         frontLeftWheelCollider.motorTorque = verticalInput * (motorForce + overdriveMotorForce);
         frontRightWheelCollider.motorTorque = verticalInput * (motorForce + overdriveMotorForce);
 
-        currBreakForce = isBreaking ? breakForce : 0.0f;
+        currBreakForce = isBreaking==1 ? breakForce : 0.0f;
         ApplyBreaking();
 
     }
@@ -125,8 +144,8 @@ public class PlayerCarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        if (!rightPressed && !leftPressed || rightPressed && leftPressed)
-            horizontalInput = 0.0f;
+        //if (!rightPressed && !leftPressed || rightPressed && leftPressed)
+            //horizontalInput = 0.0f;
 
         currSteerAngle = maxSteerAngle * horizontalInput;
         frontLeftWheelCollider.steerAngle = currSteerAngle;
