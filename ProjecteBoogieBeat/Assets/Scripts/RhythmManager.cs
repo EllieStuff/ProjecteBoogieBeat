@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class RhythmManager : MonoBehaviour
 {
-    public bool interactionPressed = false;
-    
+    private bool interactionPressed = false;
+
     PlayerCarController playerScript;
     [SerializeField] CenterOfRhythmScript centerScript;
+    [SerializeField] GameObject rhythmMarkPrefab;
 
 
     // Start is called before the first frame update
@@ -18,11 +19,31 @@ public class RhythmManager : MonoBehaviour
     }
 
 
-    private void LateUpdate()
+    private void Update()
     {
+
         if (interactionPressed)
+        {
+            // Do Stuff here
+
+
+
             interactionPressed = false;
+        }
+
+
+
+
+
+        //AfterUpdate();
     }
+
+
+    //private void AfterUpdate()
+    //{
+    //    if (interactionPressed)
+    //        interactionPressed = false;
+    //}
 
 
     public PlayerCarController GetPlayer()
@@ -30,5 +51,14 @@ public class RhythmManager : MonoBehaviour
         return playerScript;
     }
 
+    public bool GetInteractionPressed()
+    {
+        return interactionPressed;
+    }
+
+    public void SetInteractionPressed(bool _state)
+    {
+        interactionPressed = _state;
+    }
 
 }

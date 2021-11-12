@@ -4,31 +4,51 @@ using UnityEngine;
 
 public class RhythmMarkScript : MonoBehaviour
 {
-    // ToDo: Make Pair RhythmMark
+    public bool isMain = false;
 
-    RhythmManager rhythmManager;
+    RhythmMarksSetScript marksManager = null;
     bool interacting = false;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        rhythmManager = GetComponentInParent<RhythmManager>();
+        marksManager = GetComponentInParent<RhythmMarksSetScript>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (rhythmManager.GetPlayer().AnyInput && !rhythmManager.interactionPressed)
-        {
-            interacting = true;
-        }
+
+
+        GetInputs();
 
     }
 
-    private void LateUpdate()
+
+    private void Move()
     {
-        if (interacting) interacting = false;
+        Vector3 moveDir = (marksManager.transform.position - transform.position).normalized;
+        // Fer que es mogui amb velocitat del RhythmMarksSetScript
+        //transform.position = 
+
+    }
+
+    private void GetInputs()
+    {
+        if (isMain)
+        {
+            if (!interacting && marksManager.GetRMPlayer().AnyInput && !marksManager.GetRMInteractionPressed())
+            {
+                interacting = true;
+            }
+            else if (interacting)
+            {
+                interacting = false;
+            }
+
+        }
 
     }
 
@@ -37,7 +57,7 @@ public class RhythmMarkScript : MonoBehaviour
     {
         if (col.tag.Equals("CenterOfRhythm") && interacting)
         {
-            rhythmManager.interactionPressed = true;
+            marksManager.GetRhythmManager().SetInteractionPressed(true);
             // whatever needed
             Destroy(gameObject);
         }
