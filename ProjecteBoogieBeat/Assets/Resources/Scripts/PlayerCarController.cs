@@ -216,10 +216,10 @@ public class PlayerCarController : MonoBehaviour
         consecutiveMistakes++;
 
         usedIsBreaking = 1.0f;
-        if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3)
-        {
-            breakDown = true;
-        }
+        //if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3)
+        //{
+        //    breakDown = true;
+        //}
 
     }
 
@@ -230,7 +230,7 @@ public class PlayerCarController : MonoBehaviour
             Debug.Log(1);
             wrongTimingTriggered = false;
 
-            if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3) breakDown = false;
+            //if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3) breakDown = false;
 
         }
         else

@@ -1,38 +1,37 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RhythmManager : MonoBehaviour
 {
-    // ToDo: Controlar RhythmMarksSets desde aqui sense anar-los instanciant
-    //  1. Treure tema instancies
-    //  2. Fer que el RhythmMarksSet es reinicii i esperi al seu torn (al agafar-ne un, sumar 1 al idx de utilitzats i asegurarse de que estigui en desus)
-    //  3. Controlar si el jugador a posat malament el input desde aqui, mirant els RhythmMarksSet en us de l'array
+    const float DEFAULT_SPEED_MULTIPLIER = 1.0f;
 
-    private bool interactionPressed = false;
-
-    PlayerCarController playerScript;
     [SerializeField] float baseSpeed = 0.6f;
+    [SerializeField] float speedMultiplier = DEFAULT_SPEED_MULTIPLIER;
     [SerializeField] float startDelay = 3.0f;
     [SerializeField] float spawnDelay = 0.5f;
     [SerializeField] float destroyDelay = 0.25f;
-    [SerializeField] GameObject rhythmMarksSetPrefab;
 
-    private float actualSpeed = 0.0f;
-    private bool wrongTimingChecked = false;
-    private bool isWrongTiming = true;
+    private PlayerCarController playerScript;
     private RhythmMarksSetScript[] marksSetsArray;
-    //private BoxCollider centerOfRhythmCollider;
+    private bool interactionPressed = false;
+    private float actualSpeed = 0.0f;
+    private int currMarksSetIdx = 0;
 
     public float RhythmSpeed { get { return actualSpeed; } }
     public float DestroyDelay { get { return destroyDelay; } }
+
+
+    private void Awake()
+    {
+        marksSetsArray = transform.GetChild(1).GetComponentsInChildren<RhythmMarksSetScript>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
         playerScript = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerCarController>();
-        marksSetsArray = transform.GetChild(1).GetComponentsInChildren<RhythmMarksSetScript>();
-        //centerOfRhythmCollider = GetComponentInChildren<BoxCollider>();
 
         actualSpeed = baseSpeed;
         StartCoroutine(SpawnMarksSetsCoroutine());
@@ -42,55 +41,61 @@ public class RhythmManager : MonoBehaviour
 
     private void Update()
     {
+        CheckMarksInputs();
 
-        if (interactionPressed)
+        RefreshActualSpeed();
+
+    }
+
+    private void CheckMarksInputs()
+    {
+        if (!interactionPressed && playerScript.RealAnyInput)
         {
-            // Do Stuff here
+            interactionPressed = true;
+
+            // Find Colliding Mark Idx
+            int collidingMarksSetIdx = -1;
+            for (int i = 0; i < marksSetsArray.Length && collidingMarksSetIdx < 0; i++)
+            {
+                if (marksSetsArray[i].gameObject.activeSelf)
+                {
+                    if (marksSetsArray[i].GetMainMark().isCollidingCenter)
+                        collidingMarksSetIdx = i;
+
+                }
+
+            }
+
+            // Once searched, penalize if not found
+            if(collidingMarksSetIdx < 0)
+            {
+                Debug.Log("Wrong Timing");
+                TriggerWrongTiming();
+            }
+            // Else, Reinit the MarksSet
+            else
+            {
+                Debug.Log("Good Timing");
+                marksSetsArray[collidingMarksSetIdx].ReinitSet();
+            }
+
+            // Refresh the Inputs
             playerScript.RefreshInputs();
 
-
+        }
+        else if(interactionPressed && !playerScript.RealAnyInput)
+        {
             interactionPressed = false;
         }
 
-        //if (!isWrongTiming)
-        //{
-        //    isWrongTiming = true;
-        //}
-
-        if (wrongTimingChecked)
-        {
-            if (isWrongTiming)
-                TriggerWrongTiming();
-
-            isWrongTiming = true;
-            wrongTimingChecked = false;
-        }
-
-
-
-        //AfterUpdate();
     }
 
-
-    //private void AfterUpdate()
-    //{
-    //    if (interactionPressed)
-    //        interactionPressed = false;
-    //}
-
-
-    public void CheckIfWrongTiming(bool _isCollidingCenter)
+    private void RefreshActualSpeed()
     {
-        wrongTimingChecked = true;
-        if (_isCollidingCenter) isWrongTiming = false;
+        actualSpeed = baseSpeed * speedMultiplier;
     }
-    //public bool IsWrongTiming()
-    //{
-    //    bool result = isWrongTiming;
-    //    isWrongTiming = true;
 
-    //    return result;
-    //}
+
     public void TriggerWrongTiming()
     {
         // Do Stuff Here
@@ -98,19 +103,24 @@ public class RhythmManager : MonoBehaviour
     }
 
 
-    public PlayerCarController GetPlayer()
+    private void ActivateRhythmMarksSet()
     {
-        return playerScript;
-    }
+        bool marksSetAvailable = true;
+        int idxCopy = currMarksSetIdx;
+        do {
+            currMarksSetIdx++;
+            if (currMarksSetIdx >= marksSetsArray.Length) currMarksSetIdx = 0;
+            if (currMarksSetIdx == idxCopy) marksSetAvailable = false;
+        } 
+        while (marksSetsArray[currMarksSetIdx].gameObject.activeSelf && marksSetAvailable);
 
-    public bool GetInteractionPressed()
-    {
-        return interactionPressed;
-    }
+        if (marksSetAvailable)
+        {
+            marksSetsArray[currMarksSetIdx].gameObject.SetActive(true);
+            // ToDo: Activate effect if needed
+        }
 
-    public void SetInteractionPressed(bool _state)
-    {
-        interactionPressed = _state;
+
     }
 
 
@@ -119,7 +129,8 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
         while (playerScript.IsPlaying)
         {
-            Instantiate(rhythmMarksSetPrefab, transform);
+            ActivateRhythmMarksSet();
+
             yield return new WaitForSeconds(spawnDelay);
         }
 

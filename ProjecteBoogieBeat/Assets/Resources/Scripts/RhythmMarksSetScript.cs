@@ -7,6 +7,7 @@ public class RhythmMarksSetScript : MonoBehaviour
     [SerializeField] RhythmMarkScript[] rhythmMarks = new RhythmMarkScript[2];
 
     RhythmManager rhythmManager;
+    float initMarksDistance;
 
     public float Speed { get { return rhythmManager.RhythmSpeed; } }
 
@@ -14,36 +15,36 @@ public class RhythmMarksSetScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rhythmManager = GetComponentInParent<RhythmManager>();
+        rhythmManager = transform.GetComponentInParent<Transform>().GetComponentInParent<RhythmManager>();
+
+
+        initMarksDistance = Vector3.Distance(transform.position, rhythmMarks[0].transform.position);
+        gameObject.SetActive(false);
+
     }
 
 
-    public void StartDestroySetTimer()
+    public void StartReinitSetTimer()
     {
-        StartCoroutine(DestroySetCoroutine());
+        StartCoroutine(ReinitSetCoroutine());
     }
-    public void DestroySet()
+    public void ReinitSet()
     {
-        Destroy(gameObject);
+        rhythmMarks[0].transform.position = transform.position + (transform.right * initMarksDistance);
+        rhythmMarks[1].transform.position = transform.position + (-transform.right * initMarksDistance);
+
+        rhythmMarks[0].isCollidingCenter = false;
+        gameObject.SetActive(false);
+
     }
 
-    public RhythmManager GetRhythmManager()
+    public RhythmMarkScript GetMainMark()
     {
-        return rhythmManager;
-    }
-
-    public PlayerCarController GetRMPlayer()
-    {
-        return rhythmManager.GetPlayer();
-    }
-
-    public bool GetRMInteractionPressed()
-    {
-        return rhythmManager.GetInteractionPressed();
+        return rhythmMarks[0];
     }
 
 
-    IEnumerator DestroySetCoroutine()
+    IEnumerator ReinitSetCoroutine()
     {
         float waitTime = 0.0f;
         while(waitTime < rhythmManager.DestroyDelay)
@@ -54,7 +55,7 @@ public class RhythmMarksSetScript : MonoBehaviour
         }
 
         rhythmManager.TriggerWrongTiming();
-        Destroy(gameObject);
+        ReinitSet();
     }
 
 }
