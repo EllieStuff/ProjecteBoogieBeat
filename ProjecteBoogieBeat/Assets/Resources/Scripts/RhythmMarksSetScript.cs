@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class RhythmMarksSetScript : MonoBehaviour
 {
-    [SerializeField] float baseSpeed;
-    [SerializeField] RhythmMarkScript[] rhythmMark = new RhythmMarkScript[2];
+    [SerializeField] RhythmMarkScript[] rhythmMarks = new RhythmMarkScript[2];
 
     RhythmManager rhythmManager;
-    float actualSpeed = 0;
 
-    public float Speed { get { return actualSpeed; } }
+    public float Speed { get { return rhythmManager.RhythmSpeed; } }
 
 
     // Start is called before the first frame update
     void Start()
     {
         rhythmManager = GetComponentInParent<RhythmManager>();
-        actualSpeed = baseSpeed;
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void StartDestroySetTimer()
     {
-        
+        StartCoroutine(DestroySetCoroutine());
     }
-
-
+    public void DestroySet()
+    {
+        Destroy(gameObject);
+    }
 
     public RhythmManager GetRhythmManager()
     {
@@ -41,6 +40,21 @@ public class RhythmMarksSetScript : MonoBehaviour
     public bool GetRMInteractionPressed()
     {
         return rhythmManager.GetInteractionPressed();
+    }
+
+
+    IEnumerator DestroySetCoroutine()
+    {
+        float waitTime = 0.0f;
+        while(waitTime < rhythmManager.DestroyDelay)
+        {
+            yield return new WaitForEndOfFrame();
+            waitTime += Time.deltaTime;
+
+        }
+
+        rhythmManager.TriggerWrongTiming();
+        Destroy(gameObject);
     }
 
 }
