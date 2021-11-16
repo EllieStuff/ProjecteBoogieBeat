@@ -8,7 +8,16 @@ public class RhythmMarkScript : MonoBehaviour
     internal bool isCollidingCenter = false;
 
     RhythmMarksSetScript marksManager = null;
+    SpriteRenderer spriteRenderer;
+    Color initColor;
+    float lerpColorSpeed = 3.0f;
 
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        initColor = spriteRenderer.color;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -32,6 +41,15 @@ public class RhythmMarkScript : MonoBehaviour
 
     }
 
+    public void StartLerpColorCoroutine(Color _finalColor, float _maxTime)
+    {
+        StartCoroutine(LerpColorCoroutine(_finalColor, _maxTime));
+    }
+    public void ReinitColor()
+    {
+        spriteRenderer.color = initColor;
+    }
+
 
     private void OnTriggerEnter(Collider other)
     {
@@ -46,6 +64,22 @@ public class RhythmMarkScript : MonoBehaviour
             //Debug.Log("Colliding with " + other.tag);
 
         }
+
+    }
+
+
+    private IEnumerator LerpColorCoroutine(Color _finalColor, float _maxTime)
+    {
+        float lerpT = 0.0f;
+        while(lerpT < _maxTime)
+        {
+            spriteRenderer.color = Color.Lerp(initColor, _finalColor, lerpT);
+
+            yield return new WaitForEndOfFrame();
+            lerpT += Time.deltaTime * lerpColorSpeed;
+        }
+
+        ReinitColor();
 
     }
 
