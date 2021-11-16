@@ -440,6 +440,54 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3303763130187289003, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 4500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130187289003, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 35000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130187289003, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130187289003, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130440405535, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 4500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130440405535, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 35000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130440405535, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763130440405535, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131657437159, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 4500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131657437159, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 35000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131657437159, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131657437159, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3303763131803757888, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -487,6 +535,26 @@ PrefabInstance:
     - target: {fileID: 3303763131803757891, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
       propertyPath: m_Name
       value: PlayerSet
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131860065523, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.damper
+      value: 4500
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131860065523, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SuspensionSpring.spring
+      value: 35000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131860065523, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_ForwardFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3303763131860065523, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_SidewaysFriction.m_Stiffness
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774916630113360188, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_Mass
+      value: 2000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}

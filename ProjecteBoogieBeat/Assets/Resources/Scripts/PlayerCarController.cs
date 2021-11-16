@@ -13,6 +13,8 @@ public class PlayerCarController : MonoBehaviour
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider rearRightWheelCollider;
 
+    //[SerializeField] private Transform centerOfMass;
+
     [SerializeField] private Transform frontLeftWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform;
     [SerializeField] private Transform frontRightWheelTransform;
@@ -61,11 +63,13 @@ public class PlayerCarController : MonoBehaviour
     private bool rightDrift = false;
     private Vector3 angularVel;
     private int consecutiveMistakes = 0;
+    
+    [Range(0.5f, 10.0f)] [SerializeField] private float downForce = 1.0f;
 
     private float currSteerAngle;
 
     private Rigidbody rb;
-    private Vector3 newCenterOfMas = new Vector3(0.0f, -0.9f, 0.0f);
+    private Vector3 newCenterOfMass = new Vector3(0.0f, -0.9f, 0.0f);
     private bool isPlaying = true;
     private bool wrongTimingTriggered = false;
 
@@ -77,7 +81,7 @@ public class PlayerCarController : MonoBehaviour
         //InitWheels();
 
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = newCenterOfMas;
+        rb.centerOfMass = newCenterOfMass;
         
         
     }
@@ -103,8 +107,10 @@ public class PlayerCarController : MonoBehaviour
         HandleMotor();
         HandleSteering();
         UpdateWheels();
+        ApplyDownForce();
 
     }
+
 
     public void OnVerticalMovement(InputAction.CallbackContext context)
     {
@@ -209,6 +215,13 @@ public class PlayerCarController : MonoBehaviour
         _wheelTransform.rotation = rot;
 
     }
+
+    private void ApplyDownForce()
+    {
+        float currSpeed = transform.InverseTransformDirection(rb.velocity).z * 3.0f;
+        rb.AddForce(-transform.up * currSpeed * downForce);
+    }
+
 
     public void TriggerWrongTiming()
     {
