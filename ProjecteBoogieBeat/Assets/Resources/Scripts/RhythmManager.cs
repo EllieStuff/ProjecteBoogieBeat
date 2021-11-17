@@ -71,7 +71,7 @@ public class RhythmManager : MonoBehaviour
             {
                 Debug.Log("Wrong Timing");
                 TriggerWrongTiming();
-                marksSetsArray[collidingMarksSetIdx].lerpFinalColor = Color.green;
+                //marksSetsArray[collidingMarksSetIdx].lerpFinalColor = Color.green;
             }
             // Else, Reinit the MarksSet
             else
@@ -83,6 +83,7 @@ public class RhythmManager : MonoBehaviour
 
             // Refresh the Inputs
             playerScript.RefreshInputs();
+            //StartCoroutine(CheckInputs());
 
         }
         else if(interactionPressed && !playerScript.RealAnyInput)

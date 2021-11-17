@@ -62,7 +62,9 @@ public class RhythmMarksSetScript : MonoBehaviour
 
         }
 
-        rhythmManager.TriggerWrongTiming();
+        if(lerpFinalColor != Color.green)
+            rhythmManager.TriggerWrongTiming();
+
         ReinitSet();
     }
 
