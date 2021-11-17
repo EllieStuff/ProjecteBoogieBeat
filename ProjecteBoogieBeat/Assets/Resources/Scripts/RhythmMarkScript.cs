@@ -41,9 +41,9 @@ public class RhythmMarkScript : MonoBehaviour
 
     }
 
-    public void StartLerpColorCoroutine(Color _finalColor, float _maxTime)
+    public void StartLerpColorCoroutine()
     {
-        StartCoroutine(LerpColorCoroutine(_finalColor, _maxTime));
+        StartCoroutine(LerpColorCoroutine());
     }
     public void ReinitColor()
     {
@@ -68,12 +68,12 @@ public class RhythmMarkScript : MonoBehaviour
     }
 
 
-    private IEnumerator LerpColorCoroutine(Color _finalColor, float _maxTime)
+    private IEnumerator LerpColorCoroutine()
     {
         float lerpT = 0.0f;
-        while(lerpT < _maxTime)
+        while(lerpT < marksManager.lerpMaxTime)
         {
-            spriteRenderer.color = Color.Lerp(initColor, _finalColor, lerpT);
+            spriteRenderer.color = Color.Lerp(initColor, marksManager.lerpFinalColor, lerpT);
 
             yield return new WaitForEndOfFrame();
             lerpT += Time.deltaTime * lerpColorSpeed;

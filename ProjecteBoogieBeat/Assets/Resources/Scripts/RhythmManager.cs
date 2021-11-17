@@ -71,12 +71,14 @@ public class RhythmManager : MonoBehaviour
             {
                 Debug.Log("Wrong Timing");
                 TriggerWrongTiming();
+                marksSetsArray[collidingMarksSetIdx].lerpFinalColor = Color.green;
             }
             // Else, Reinit the MarksSet
             else
             {
                 Debug.Log("Good Timing");
-                marksSetsArray[collidingMarksSetIdx].ReinitSet();
+                marksSetsArray[collidingMarksSetIdx].lerpFinalColor = Color.green;
+                //marksSetsArray[collidingMarksSetIdx].ReinitSet();
             }
 
             // Refresh the Inputs
@@ -129,9 +131,19 @@ public class RhythmManager : MonoBehaviour
         yield return new WaitForSeconds(startDelay);
         while (playerScript.IsPlaying)
         {
-            ActivateRhythmMarksSet();
+            bool ost_isPlaying = AudioManager.OST_IsPlaying();
 
-            yield return new WaitForSeconds(spawnDelay);
+            if (!ost_isPlaying)
+            {
+                AudioManager.RePlay_OST();
+            }
+
+            if (ost_isPlaying)
+            {
+                ActivateRhythmMarksSet();
+
+                yield return new WaitForSeconds(spawnDelay);
+            }
         }
 
     }

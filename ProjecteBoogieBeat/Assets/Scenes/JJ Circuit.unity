@@ -4490,7 +4490,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c53828cacc7a5d042b2aee58076faeb7, type: 2}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -6029,11 +6029,11 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: c53828cacc7a5d042b2aee58076faeb7, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: bd4b2d3f549cb0f4db96ec2307edfa8e, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -9465,11 +9465,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31d245c7174e836459474b339d8a1b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SFX_AudioSource: {fileID: 106666720}
-  OST_AudioSource: {fileID: 140638832}
-  generalMusic: {fileID: 0}
-  rightTiming: {fileID: 0}
-  wrongTiming: {fileID: 0}
+  SFX_Volume: 1
+  OST_Volume: 1
 --- !u!1001 &235688602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18181,6 +18178,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 696448666}
     m_Modifications:
+    - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
+      propertyPath: baseSpeed
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
+      propertyPath: spawnDelay
+      value: 0.50585
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
+      propertyPath: startDelay
+      value: 6.6
+      objectReference: {fileID: 0}
     - target: {fileID: 4982889633416052721, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -18228,6 +18237,10 @@ PrefabInstance:
     - target: {fileID: 4982889633416052734, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: m_Name
       value: RhythmManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982889634699225973, guid: a3581d6786e2a544190a311642198618, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4982889634699225974, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: fadeSpeed
