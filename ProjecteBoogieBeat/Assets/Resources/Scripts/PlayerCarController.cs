@@ -13,7 +13,7 @@ public class PlayerCarController : MonoBehaviour
     [SerializeField] private WheelCollider frontRightWheelCollider;
     [SerializeField] private WheelCollider rearRightWheelCollider;
 
-    //[SerializeField] private Transform centerOfMass;
+    [SerializeField] private Transform centerOfMass;
 
     [SerializeField] private Transform frontLeftWheelTransform;
     [SerializeField] private Transform rearLeftWheelTransform;
@@ -23,6 +23,7 @@ public class PlayerCarController : MonoBehaviour
     [SerializeField] private float motorForce = 10.0f;
     [SerializeField] private float breakForce = 10.0f;
     [SerializeField] private float maxSteerAngle = 10.0f;
+    [SerializeField] private float zRotationLimit = 20.0f;
 
     //Basic controls
     private bool
@@ -67,6 +68,14 @@ public class PlayerCarController : MonoBehaviour
     [Range(0.5f, 10.0f)] [SerializeField] private float downForce = 1.0f;
 
     private float currSteerAngle;
+    private float maxAngularVel;
+    [SerializeField] private float maxAngularVelForJJ = 0.5f;
+    [SerializeField] private float maxVelocity = 20.0f;
+
+    //Speed of turn
+    [Range(0.001f, 1.0f)]
+    [SerializeField] float steerSpeed = 0.2f;
+    public float SteerSpeed { get { return steerSpeed; } set { steerSpeed = Mathf.Clamp(value, 0.001f, 1.0f); } }
 
     private Rigidbody rb;
     private Vector3 newCenterOfMass = new Vector3(0.0f, -0.9f, 0.0f);
@@ -81,25 +90,17 @@ public class PlayerCarController : MonoBehaviour
         //InitWheels();
 
         rb = GetComponent<Rigidbody>();
-        rb.centerOfMass = newCenterOfMass;
-        
-        
+        if (rb != null && centerOfMass != null)
+        {
+            rb.centerOfMass = centerOfMass.localPosition;
+        }
+        maxAngularVel = rb.maxAngularVelocity;
+
     }
 
     private void Update()
     {
-        //GetInput();
-        ////angularVel = rb.angularVelocity;
-        //Debug.Log("Vertical: " + verticalInput);
-        //Debug.Log("Horizontal: " + horizontalInput);
-        //Debug.Log("motorTorque: " + frontLeftWheelCollider.motorTorque);
-        ////Debug.Log("tmpMaxSteerAngle: " + tmpMaxSteerAngle);
-        ////Debug.Log("maxSteerAngle: " + maxSteerAngle);
-        ////Debug.Log("currSteerAngle: " + currSteerAngle);
-        ////Debug.Log("angleVelocity: " + angularVel);
-        ////Debug.Log("rb.inertiaTensor: " + rb.inertiaTensor);
-        ////Debug.Log("rb.inertiaTensorRotation: " + rb.inertiaTensorRotation);
-        //Debug.Log("isBreaking: " + isBreaking);
+
     }
 
     private void FixedUpdate()
@@ -175,6 +176,13 @@ public class PlayerCarController : MonoBehaviour
         }
         ApplyBreaking();
 
+
+        if (rb.velocity.x > maxVelocity)
+            rb.velocity = new Vector3(maxVelocity, rb.velocity.y, rb.velocity.z);
+        if (rb.velocity.z > maxVelocity)
+            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, maxVelocity);
+        //Debug.Log("Linear Velocity: " + rb.velocity);
+
     }
     private void ApplyBreaking()
     {
@@ -188,8 +196,34 @@ public class PlayerCarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        //if (!rightPressed && !leftPressed || rightPressed && leftPressed)
-            //horizontalInput = 0.0f;
+        //Limit a la velocitat angular del cotxe perquè no volqui (cutre, ho sé)
+        //if (transform.rotation.eulerAngles.z < zRotationLimit || transform.rotation.eulerAngles.z > 360 - zRotationLimit)
+        //{
+        //    rb.maxAngularVelocity = maxAngularVel;
+        //}
+        //else if (transform.rotation.eulerAngles.z > zRotationLimit && transform.rotation.eulerAngles.z <= 180)
+        //{
+        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, zRotationLimit);
+        //    rb.maxAngularVelocity = 1.5f;
+        //}
+        //else if (transform.rotation.eulerAngles.z < 360 - zRotationLimit && transform.rotation.eulerAngles.z > 180)
+        //{
+        //    transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 360 - zRotationLimit);
+        //    rb.maxAngularVelocity = 1.5f;
+        //}
+
+        //El mateix de dalt però per al nivell JJ (no entenc perquè en aquesta escena la velocitat angular és sobre y i a l'altre és de x i z)
+        if (rb.angularVelocity.y >= -maxAngularVelForJJ && rb.angularVelocity.y <= maxAngularVelForJJ) { }
+        else if (rb.angularVelocity.y > maxAngularVelForJJ)
+            rb.angularVelocity = new Vector3(rb.angularVelocity.x, maxAngularVelForJJ, rb.angularVelocity.z);
+        else if (rb.angularVelocity.y < -maxAngularVelForJJ)
+            rb.angularVelocity = new Vector3(rb.angularVelocity.x, -maxAngularVelForJJ, rb.angularVelocity.z);
+
+        if (horizontalInput == 0)
+            rb.angularVelocity = new Vector3(0, 0, 0);
+
+        //Debug.Log("Z rotation: " + transform.rotation.eulerAngles.z);
+        //Debug.Log("Angular Velocity: " + rb.angularVelocity);
 
         currSteerAngle = maxSteerAngle * horizontalInput;
         frontLeftWheelCollider.steerAngle = currSteerAngle;
@@ -240,7 +274,7 @@ public class PlayerCarController : MonoBehaviour
     {
         if (wrongTimingTriggered)
         {
-            Debug.Log(1);
+            //Debug.Log(1);
             wrongTimingTriggered = false;
 
             //if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3) breakDown = false;
@@ -248,7 +282,7 @@ public class PlayerCarController : MonoBehaviour
         }
         else
         {
-            Debug.Log(2);
+            //Debug.Log(2);
 
             if (consecutiveMistakes > 0)
                 consecutiveMistakes = 0;
