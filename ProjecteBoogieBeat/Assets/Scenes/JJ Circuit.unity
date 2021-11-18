@@ -81294,6 +81294,22 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5774916630113360189, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_Size.x
+      value: 1.653919
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774916630113360189, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_Size.y
+      value: 0.98197955
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774916630113360189, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_Center.x
+      value: -0.0028506517
+      objectReference: {fileID: 0}
+    - target: {fileID: 5774916630113360189, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
+      propertyPath: m_Center.y
+      value: 0.7576535
+      objectReference: {fileID: 0}
     - target: {fileID: 5774916630113360191, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
       propertyPath: downForce
       value: 1
