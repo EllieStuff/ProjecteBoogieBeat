@@ -18441,11 +18441,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: baseSpeed
-      value: 0.5
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: spawnDelay
-      value: 1
+      value: 0.5085
+      objectReference: {fileID: 0}
+    - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
+      propertyPath: startDelay
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4982889633416052721, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: m_RootOrder
@@ -28816,7 +28820,7 @@ Transform:
   m_Children:
   - {fileID: 445863785}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &696448667
 MonoBehaviour:
@@ -42789,7 +42793,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!4 &1054177269 stripped
 Transform:
@@ -56842,7 +56846,7 @@ Transform:
   - {fileID: 622482113}
   - {fileID: 30115591}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1374449923
 PrefabInstance:
@@ -81300,7 +81304,7 @@ PrefabInstance:
       objectReference: {fileID: 775141140}
     - target: {fileID: 5774916630113360191, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
       propertyPath: maxSteerAngle
-      value: 10
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7733c19a2c7567b45a46bdb927490ac5, type: 3}
