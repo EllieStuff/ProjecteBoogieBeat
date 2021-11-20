@@ -579,6 +579,7 @@ GameObject:
   - component: {fileID: 5774916630112159038}
   - component: {fileID: 5774916630111160318}
   - component: {fileID: 5774916630113360191}
+  - component: {fileID: 1674832111528501082}
   - component: {fileID: 5774916630113360188}
   - component: {fileID: 5774916630113360189}
   - component: {fileID: 5774916630113360178}
@@ -681,7 +682,22 @@ MonoBehaviour:
   zRotationLimit: 7
   overdriveMultiplier: 1
   downForce: 1
+  maxAngularVelForJJ: 0.5
+  maxVelocity: 20
   steerSpeed: 0.2
+--- !u!114 &1674832111528501082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774916630113360190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0eb4a3195fdb5447bb064d7b7fc64cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turboAmmount: 0.5
 --- !u!54 &5774916630113360188
 Rigidbody:
   m_ObjectHideFlags: 0
