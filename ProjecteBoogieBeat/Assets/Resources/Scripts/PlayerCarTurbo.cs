@@ -5,21 +5,29 @@ using UnityEngine.UI;
 
 public class PlayerCarTurbo : MonoBehaviour
 {
-    [SerializeField] [Range(0, 1)] float turboAmmount = 0.5f;
-    
-    Slider turboSlider;
+    [SerializeField] [Range(0, 1)] float turboFuel = 0.3f;
+    [SerializeField] float fuelDecreaseSpeed = 1.0f;
+
+    //Slider turboSlider;
+    TurboSliderController turboSlider;
+
+    public bool HasFuel { get { return turboFuel > 0.0f; } }
 
     // Start is called before the first frame update
     void Start()
     {
-        turboSlider = GameObject.FindGameObjectWithTag("TurboSlider").GetComponent<Slider>();
-        turboSlider.value = turboAmmount;
+        turboSlider = GameObject.FindGameObjectWithTag("TurboSlider").GetComponent<TurboSliderController>();
+        turboSlider.SetValue(turboFuel);
     }
 
-    // Update is called once per frame
-    void Update()
+
+    public void DecreaseTurboFuel()
     {
-        
+        turboFuel -= fuelDecreaseSpeed * Time.deltaTime;
+        if (turboFuel < 0) turboFuel = 0;
+
+        turboSlider.SetValue(turboFuel);
+
     }
 
 
@@ -30,9 +38,10 @@ public class PlayerCarTurbo : MonoBehaviour
             TurboItemScript turboItem = other.gameObject.GetComponent<TurboItemScript>();
             if (turboItem.IsActive)
             {
-                turboAmmount += turboItem.TurboAddAmmount;
-                if (turboAmmount > 1.0f) turboAmmount = 1.0f;
-                turboSlider.value = turboAmmount;
+                turboFuel += turboItem.TurboAddAmmount;
+                if (turboFuel > 1.0f) turboFuel = 1.0f;
+
+                turboSlider.SetValue(turboFuel);
 
                 turboItem.DeactivateOnTime();
             }

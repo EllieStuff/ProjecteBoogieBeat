@@ -58,8 +58,8 @@ public class PlayerCarController : MonoBehaviour
     private float
         realTurboPressed = 0,  //TO DO: el turbo té una duració acumulada màxima
         usedTurboPressed = 0;
-    private float overdriveMotorForce;
-    [SerializeField] private float overdriveMultiplier = 1.0f;
+    private float turboMotorForce;
+    [SerializeField] private float turboForce = 10.0f;
     private bool leftDrift = false;
     private bool rightDrift = false;
     private Vector3 angularVel;
@@ -71,12 +71,14 @@ public class PlayerCarController : MonoBehaviour
     private float maxAngularVel;
     [SerializeField] private float maxAngularVelForJJ = 0.5f;
     [SerializeField] private float maxVelocity = 20.0f;
+    [SerializeField] private float maxTurboVelocity = 50.0f;
 
     //Speed of turn
     [Range(0.001f, 1.0f)]
     [SerializeField] float steerSpeed = 0.2f;
     public float SteerSpeed { get { return steerSpeed; } set { steerSpeed = Mathf.Clamp(value, 0.001f, 1.0f); } }
 
+    PlayerCarTurbo turboScript;
     private Rigidbody rb;
     private Vector3 newCenterOfMass = new Vector3(0.0f, -0.9f, 0.0f);
     private bool isPlaying = true;
@@ -87,7 +89,7 @@ public class PlayerCarController : MonoBehaviour
 
     void Start()
     {
-        //InitWheels();
+        turboScript = GetComponent<PlayerCarTurbo>();
 
         rb = GetComponent<Rigidbody>();
         if (rb != null && centerOfMass != null)
@@ -154,10 +156,26 @@ public class PlayerCarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        if(usedVerticalInput > 0)
-            overdriveMotorForce = usedTurboPressed == 1 ? motorForce * overdriveMultiplier : 0.0f;
-        frontLeftWheelCollider.motorTorque = usedVerticalInput * (motorForce + overdriveMotorForce);
-        frontRightWheelCollider.motorTorque = usedVerticalInput * (motorForce + overdriveMotorForce);
+        if (UsedTurboInput && turboScript.HasFuel)
+        {
+            Debug.Log("InTurbo");
+            rb.AddForce(transform.forward * turboForce, ForceMode.Force);
+            if (rb.velocity.x > maxTurboVelocity)
+                rb.velocity = new Vector3(maxTurboVelocity, rb.velocity.y, rb.velocity.z);
+            if (rb.velocity.y > maxTurboVelocity)
+                rb.velocity = new Vector3(rb.velocity.x, maxTurboVelocity, rb.velocity.z);
+            if (rb.velocity.z > maxTurboVelocity)
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, maxTurboVelocity);
+
+            turboScript.DecreaseTurboFuel();
+        }
+        else
+        {
+            turboMotorForce = 0;
+        }
+
+        frontLeftWheelCollider.motorTorque = usedVerticalInput * (motorForce /*+ turboMotorForce*/);
+        frontRightWheelCollider.motorTorque = usedVerticalInput * (motorForce /*+ turboMotorForce*/);
 
 
         if (UsedBreakInput)
@@ -176,12 +194,14 @@ public class PlayerCarController : MonoBehaviour
         }
         ApplyBreaking();
 
-
-        if (rb.velocity.x > maxVelocity)
-            rb.velocity = new Vector3(maxVelocity, rb.velocity.y, rb.velocity.z);
-        if (rb.velocity.z > maxVelocity)
-            rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, maxVelocity);
-        //Debug.Log("Linear Velocity: " + rb.velocity);
+        if (!(UsedTurboInput && turboScript.HasFuel))
+        {
+            if (rb.velocity.x > maxVelocity)
+                rb.velocity = new Vector3(maxVelocity, rb.velocity.y, rb.velocity.z);
+            if (rb.velocity.z > maxVelocity)
+                rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, maxVelocity);
+            //Debug.Log("Linear Velocity: " + rb.velocity);
+        }
 
     }
     private void ApplyBreaking()
@@ -263,6 +283,7 @@ public class PlayerCarController : MonoBehaviour
         consecutiveMistakes++;
 
         usedIsBreaking = 1.0f;
+        usedTurboPressed = 0.0f;
         //if (consecutiveMistakes >= (int)Const.MistakesTiers.TIER_3)
         //{
         //    breakDown = true;
