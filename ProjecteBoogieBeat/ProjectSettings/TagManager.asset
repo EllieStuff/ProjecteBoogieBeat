@@ -7,6 +7,8 @@ TagManager:
   - Wheel
   - CenterOfRhythm
   - RhythmMark
+  - TurboItem
+  - TurboSlider
   layers:
   - Default
   - TransparentFX
