@@ -18586,7 +18586,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4982889633416052720, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: startDelay
-      value: 6.5
+      value: 6.55
       objectReference: {fileID: 0}
     - target: {fileID: 4982889633416052721, guid: a3581d6786e2a544190a311642198618, type: 3}
       propertyPath: m_RootOrder
