@@ -291,6 +291,15 @@ public class PlayerCarController : MonoBehaviour
 
     }
 
+    public void StopCompletely()
+    {
+        usedIsBreaking = 1.0f;
+        usedTurboPressed = 0.0f;
+        frontLeftWheelCollider.motorTorque = frontRightWheelCollider.motorTorque = 0.0f;
+        rb.velocity = Vector3.zero;
+
+    }
+
     public void RefreshInputs()
     {
         if (wrongTimingTriggered)
