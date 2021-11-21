@@ -11,7 +11,7 @@ public class CenterOfRhythmScript : MonoBehaviour
 
     Transform echoTransform;
     SpriteRenderer echoSpriteRenderer;
-    Vector3 initScale;
+    Vector3 initScale, finalScale;
     Color initColor, finalColor;
     int echoId = 0;
 
@@ -21,6 +21,7 @@ public class CenterOfRhythmScript : MonoBehaviour
         echoSpriteRenderer = echoTransform.GetComponent<SpriteRenderer>();
 
         initScale = echoTransform.localScale;
+        finalScale = new Vector3(initScale.x * scaleFactor, initScale.y * scaleFactor, initScale.z);
         initColor = echoSpriteRenderer.color;
         finalColor = new Color(initColor.r, initColor.g, initColor.b, 0.0f);
 
@@ -57,7 +58,7 @@ public class CenterOfRhythmScript : MonoBehaviour
             //    echoSpriteRenderer.color = new Color(initColor.r, initColor.g, initColor.b, initColor.a - fadeSpeed);
 
             float lerpT = timePast;
-            echoTransform.localScale = Vector3.Lerp(initScale, initScale * scaleFactor, lerpT);
+            echoTransform.localScale = Vector3.Lerp(initScale, finalScale, lerpT);
             echoSpriteRenderer.color = Color.Lerp(initColor, finalColor, lerpT);
 
             yield return new WaitForEndOfFrame();
