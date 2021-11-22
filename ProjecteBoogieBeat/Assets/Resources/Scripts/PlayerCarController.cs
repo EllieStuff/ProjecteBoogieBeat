@@ -44,11 +44,13 @@ public class PlayerCarController : MonoBehaviour
     public bool RealBackwardInput { get { return realVerticalInput < 0; } }
     public bool RealBreakInput { get { return realIsBreaking > 0; } }
     public bool RealTurboInput { get { return realTurboPressed > 0; } }
+    public bool RealDriftInput { get { return realDriftPressed > 0; } }
     public bool RealAnyInput { get { return RealForwardInput || RealBackwardInput || RealBreakInput || RealTurboInput; } }
     public bool UsedForwardInput { get { return usedVerticalInput > 0; } }
     public bool UsedBackwardInput { get { return usedVerticalInput < 0; } }
     public bool UsedBreakInput { get { return usedIsBreaking > 0; } }
     public bool UsedTurboInput { get { return usedTurboPressed > 0; } }
+    public bool UsedDriftInput { get { return usedDriftPressed > 0; } }
     public bool UsedAnyInput { get { return UsedForwardInput || UsedBackwardInput || UsedBreakInput || UsedTurboInput; } }
     public bool IsPlaying { get { return isPlaying; } }
 
@@ -57,11 +59,13 @@ public class PlayerCarController : MonoBehaviour
     //"Boogie Beat" extra controls
     private float
         realTurboPressed = 0,  //TO DO: el turbo té una duració acumulada màxima
-        usedTurboPressed = 0;
+        usedTurboPressed = 0,
+        realDriftPressed = 0,
+        usedDriftPressed = 0;
+        
     private float turboMotorForce;
     [SerializeField] private float turboForce = 10.0f;
-    private bool leftDrift = false;
-    private bool rightDrift = false;
+    private bool drift = false;
     private Vector3 angularVel;
     private int consecutiveMistakes = 0;
     
@@ -77,6 +81,13 @@ public class PlayerCarController : MonoBehaviour
     [Range(0.001f, 1.0f)]
     [SerializeField] float steerSpeed = 0.2f;
     public float SteerSpeed { get { return steerSpeed; } set { steerSpeed = Mathf.Clamp(value, 0.001f, 1.0f); } }
+
+    [Range(0.0f, 2f)]
+    [SerializeField] float driftIntensity = 1f;
+    public float DriftIntensity { get { return driftIntensity; } set { driftIntensity = Mathf.Clamp(value, 0.0f, 2.0f); } }
+
+    [SerializeField] float angularForce = 7f;
+    [SerializeField] float angularMomentumPercent = 0.1f;
 
     PlayerCarTurbo turboScript;
     private Rigidbody rb;
@@ -109,6 +120,7 @@ public class PlayerCarController : MonoBehaviour
     {
         HandleMotor();
         HandleSteering();
+        HandleDrift();
         UpdateWheels();
         ApplyDownForce();
 
@@ -132,6 +144,11 @@ public class PlayerCarController : MonoBehaviour
         realTurboPressed = context.ReadValue<float>();
     }
 
+    public void OnDrift(InputAction.CallbackContext context)
+    {
+        realDriftPressed = context.ReadValue<float>();
+    }
+
 
 
 
@@ -142,7 +159,7 @@ public class PlayerCarController : MonoBehaviour
     //    //backwardPressed = Input.GetKey(KeyCode.S);
     //    //rightPressed = Input.GetKey(KeyCode.D);
     //    //leftPressed = Input.GetKey(KeyCode.A);
-        
+
     //    //horizontalInput = Input.GetAxis("Horizontal");
     //    //verticalInput = Input.GetAxis("Vertical");
     //    //isBreaking = Input.GetKey(KeyCode.Space);
@@ -250,6 +267,36 @@ public class PlayerCarController : MonoBehaviour
         frontRightWheelCollider.steerAngle = currSteerAngle;
     }
 
+    private void HandleDrift()
+    {
+        if (UsedDriftInput)
+        {
+            float currSpeed = transform.InverseTransformDirection(rb.velocity).z * 3.6f;
+
+            Vector3 driftGForce = -transform.right;
+            driftGForce.y = 0.0f;
+            driftGForce.Normalize();
+            //Vector3 ForwardDriftForce = transform.forward;
+            //ForwardDriftForce.y = 0.0f;
+            //ForwardDriftForce.Normalize();
+
+            if (currSteerAngle != 0)
+            {
+                driftGForce *= rb.mass * currSpeed / angularForce /** throttle*/ * currSteerAngle / maxSteerAngle;
+                //ForwardDriftForce *= rb.mass * currSpeed / angularForce /** throttle*/ * currSteerAngle / maxSteerAngle;
+            }
+            Vector3 driftTorque = transform.up * angularMomentumPercent * currSteerAngle / maxSteerAngle;
+
+            frontLeftWheelCollider.motorTorque += motorForce /*+ turboMotorForce*/;
+            frontRightWheelCollider.motorTorque += motorForce /*+ turboMotorForce*/;
+
+            rb.AddForce(driftGForce * driftIntensity, ForceMode.Force);
+            //rb.AddForce(ForwardDriftForce * driftIntensity, ForceMode.Force);
+            rb.AddTorque(driftTorque * driftIntensity, ForceMode.VelocityChange);
+
+        }
+    }
+
 
     private void UpdateWheels()
     {
@@ -272,7 +319,7 @@ public class PlayerCarController : MonoBehaviour
 
     private void ApplyDownForce()
     {
-        float currSpeed = transform.InverseTransformDirection(rb.velocity).z * 3.0f;
+        float currSpeed = transform.InverseTransformDirection(rb.velocity).z * 3.6f;
         rb.AddForce(-transform.up * currSpeed * downForce);
     }
 
@@ -320,8 +367,9 @@ public class PlayerCarController : MonoBehaviour
             usedVerticalInput = realVerticalInput;
             usedIsBreaking = realIsBreaking;
             usedTurboPressed = realTurboPressed;
+            
         }
-
+        usedDriftPressed = realDriftPressed;
     }
 
 }
