@@ -8,6 +8,8 @@ public class PlayerCarController : MonoBehaviour
 {
     const float BREAK_INCREMENT = 2.5f;
 
+    public int currLap = 0;
+
     [SerializeField] private WheelCollider frontLeftWheelCollider;
     [SerializeField] private WheelCollider rearLeftWheelCollider;
     [SerializeField] private WheelCollider frontRightWheelCollider;
@@ -118,11 +120,15 @@ public class PlayerCarController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        HandleMotor();
-        HandleSteering();
-        HandleDrift();
-        UpdateWheels();
-        ApplyDownForce();
+        if (isPlaying)
+        {
+            HandleMotor();
+            HandleSteering();
+            HandleDrift();
+            UpdateWheels();
+            ApplyDownForce();
+
+        }
 
     }
 
@@ -371,5 +377,15 @@ public class PlayerCarController : MonoBehaviour
         }
         usedDriftPressed = realDriftPressed;
     }
+
+    internal void ReachedGoal()
+    {
+        isPlaying = false;
+        usedIsBreaking = 1.0f;
+        breakForce = breakForce / 2.0f;
+        HandleMotor();
+
+    }
+    
 
 }
