@@ -9,6 +9,7 @@ TagManager:
   - RhythmMark
   - TurboItem
   - TurboSlider
+  - AICar
   layers:
   - Default
   - TransparentFX

@@ -31,4 +31,14 @@ public class TurboItemScript : MonoBehaviour
         noteObject.SetActive(true);
     }
 
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("AICar"))
+        {
+            DeactivateOnTime();
+        }
+
+    }
+
 }
