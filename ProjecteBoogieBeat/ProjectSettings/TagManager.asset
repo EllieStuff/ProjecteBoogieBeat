@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Wheel
+  - CenterOfRhythm
+  - RhythmMark
+  - TurboItem
+  - TurboSlider
+  - AICar
   layers:
   - Default
   - TransparentFX
@@ -11,9 +17,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - RhythmSystem
+  - AI Terrain
+  - AI Agent
   - 
   - 
   - 
